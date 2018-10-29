@@ -7,8 +7,16 @@ function Place(name, date, landmarks, notes) {
   this.notes = notes;
 }
 
+Place.prototype.getLandmarks = function() {
+  var landmarks = "";
+  this.landmarks.forEach(function(landmark) {
+    landmarks += "<li>" + landmark + "</li>";
+  });
+  return landmarks
+}
+
 Place.prototype.displayInfo = function(selector){
-  selector.append('<li class="locationHeader" id=' + this.name + '>Destination: ' + this.name + '</li><span id=' + this.name + 'Details><li>Date Visited: ' + this.dateVisited + '</li><li>Landmarks: ' + this.landmarks[0] + '</li><li>Notes: ' + this.notes + '</li></span>');
+  selector.append('<li class="locationHeader" id=' + this.name + '>Destination: ' + this.name + '</li><div id=' + this.name + 'Details><ul><li>Date Visited: ' + this.dateVisited + '</li><li>Landmarks: <ul>' + this.getLandmarks() + '</ul></li><li>Notes: ' + this.notes + '</li></ul></div>');
   $("#" + this.name + "Details").hide();
 }
 
@@ -27,9 +35,21 @@ var list = [portland, richmond, ashland]
 // Front end logic
 
 $(function() {
+
   var titleOutput = $("#output");
   list.forEach(function(each){
     each.displayInfo(titleOutput);
   });
   attachContactListeners();
+  $("#inputForm").submit(function(event) {
+    event.preventDefault();
+    var tempName = $("#nameField").val();
+    var tempDate = $("#dateField").val();
+    var tempLandmarks = $("#landmarkField").val().split(", ");
+    var tempNotes = $("#noteField").val();
+    var myLocation = new Place(tempName, tempDate, tempLandmarks, tempNotes);
+    myLocation.displayInfo(titleOutput);
+  });
+
+
 });

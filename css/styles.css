@@ -1,4 +1,17 @@
+body {
+  background-color: #cccccc;
+}
+
+h1.jumbotron {
+  text-align: center;
+  font-weight: bold;
+}
+
 .locationHeader {
   font-size: 18pt;
   font-weight: 400;
+}
+
+.well-header {
+  margin-top: 0px;
 }
